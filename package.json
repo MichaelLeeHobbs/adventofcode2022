@@ -1,0 +1,10 @@
+{
+  "name": "adventofcode2022",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "day1": "node day1",
+    "day2": "node day2",
+    "day3": "node day3"
+  }
+}
