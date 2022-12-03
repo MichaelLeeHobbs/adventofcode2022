@@ -1,9 +1,7 @@
-const fs = require('fs/promises')
-const path = require('path')
+const readInput = require('../libs/readInput')
 
 const main = async () => {
-    const data = await fs.readFile(path.resolve(__dirname, 'input.txt'), 'utf8')
-    const lines = data.split(/\r?\n/)
+    const lines = await readInput(__dirname, 'input.txt')
     const result = lines.reduce((acc, line) => {
         if (line === '') {
             acc.push(0)
@@ -20,8 +18,8 @@ main().catch(console.error)
 
 
 const test = async () => {
-    const data = await fs.readFile(path.resolve(__dirname, 'input.txt'), 'utf8')
-    const result = data.split(/\r?\n\r?\n/)
+    const data = await readInput(__dirname, 'input.txt', /\r?\n\r?\n/)
+    const result = data
         .map(line => line.split(/\r?\n/).reduce((acc, line) => acc + parseInt(line), 0))
         .sort((a, b) => b - a)
     console.log(`Elf with most calories: ${result[0]}`)
