@@ -10,7 +10,61 @@ const testInput = [
     '2-6,4-8',
 ]
 
-//
+/**
+ * A simple class to represent a pair of numbers
+ */
+class Pair {
+    /**
+     * @constructor
+     * @param {string|number} x
+     * @param {string|number} y
+     */
+    constructor(x, y) {
+        this.x = parseInt(x)
+        this.y = parseInt(y)
+    }
+
+    /**
+     * Returns true if this pair fully overlaps with another pair
+     * @param {Pair} other
+     * @returns {boolean}
+     */
+    overlaps(other) {
+        return (this.x <= other.x && this.y >= other.y) || (other.x <= this.x && other.y >= this.y)
+    }
+
+    /**
+     * Returns true if this pair partially overlaps with another pair
+     * @param {Pair} other
+     * @returns {boolean}
+     */
+    partialOverlap(other) {
+        return this.x <= other.y && this.y >= other.x
+    }
+
+    /**
+     * Returns a new pair that is parsed from a string range (e.g. '1-2')
+     * @param {string} range
+     * @returns {Pair}
+     */
+    static fromRange(range) {
+        const [a, b] = range.split('-').map(Number)
+        return new Pair(a, b)
+    }
+}
+
+const findOverlapsV2 = (input) => {
+    const overlaps = {full: 0, partial: 0}
+    input.forEach((line) => {
+        const ranges = line.split(',') //.map((range) => Pair.fromRange(range))
+        const a = Pair.fromRange(ranges[0])
+        const b = Pair.fromRange(ranges[1])
+        overlaps.full += ~~a.overlaps(b)
+        overlaps.partial += ~~a.partialOverlap(b)
+    })
+    return overlaps
+}
+
 /**
  * Split lines into pairs then into ranges
  * @param {[string]} input
@@ -69,6 +123,13 @@ const main = async () => {
 
     console.log(`Part 1 Result: ${findOverlaps(input)}`)
     console.log(`Part 2 Result: ${findPartialOverlaps(input)}`)
+
+    const testOverlaps = findOverlapsV2(testInput)
+    const overlaps = findOverlapsV2(input)
+    assert(testOverlaps.full === 2, 'findOverlapsV2.full failed')
+    assert(testOverlaps.partial === 4, 'findOverlapsV2.partial failed')
+    console.log(`More performant Part 1 Result: ${overlaps.full}`)
+    console.log(`More performant Part 2 Result: ${overlaps.partial}`)
 }
 
 main().catch(console.error)
