@@ -13,8 +13,8 @@ const testInput = [
 //
 /**
  * Split lines into pairs then into ranges
- * @param {string} input
- * @returns {[[number, number],[number, number]]}
+ * @param {[string]} input
+ * @returns {[[[number, number],[number, number]]]}
  */
 const formatInput = (input) => input.map((line) => line.split(',').map((range) => range.split('-').map((n) => parseInt(n))))
 
